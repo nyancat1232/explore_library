@@ -1,7 +1,6 @@
-import sys
-
 from importlib import import_module
 from types import ModuleType
+import argparse
 import json
 
 def find_module_information(module_name:str,
@@ -56,7 +55,7 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
             ret[module] = find_module(module_name+'.'+module,hide_double_underscored,max_depth,_current_depth=_current_depth+1)
         except:
             pass
-    print(modules_in_dir)
+    #print(modules_in_dir)
 
     
     #sibling values
@@ -66,7 +65,9 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
     return ret
 
 
-
-r=find_module(sys.argv[1])
-with open(f'{sys.argv[1]}.json','w') as json_file:
+parser = argparse.ArgumentParser()
+parser.add_argument('module',help='a python module for inspecting',type=str)
+args = parser.parse_args()
+r=find_module(args.module)
+with open(f'{args.module}.json','w') as json_file:
     json.dump(r,json_file)
