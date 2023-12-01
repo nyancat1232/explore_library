@@ -67,8 +67,15 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
 
     
     #sibling values
-    ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single=hide_single_underscored,hide_double=hide_double_underscored)
-    ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
+    remained_value = _filter_underscore(dir(current_module),hide_single=hide_single_underscored,hide_double=hide_double_underscored)
+    remained_value=[v for v in remained_value if v not in ret]
+    for v in remained_value:
+        ret[v] = str(type(v))
+    #ret['_c__v___dir___v__c_']={l:str(type(l))for l in ret['_c__v___dir___v__c_']}
+
+    #ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single=hide_single_underscored,hide_double=hide_double_underscored)
+    #ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
+    #ret['_c__v___dir___v__c_']={l:str(type(l))for l in ret['_c__v___dir___v__c_']}
 
     return ret
 
