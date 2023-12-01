@@ -14,8 +14,8 @@ def find_module_information(module_name:str,
 
     return ret
 
-def find_module(module_name:str,
-                hide_double_underscored:bool=False,max_depth:int=2,
+def find_module(module_name:str,hide_single_underscored:bool=True,
+                hide_double_underscored:bool=True,max_depth:int=2,
                 _current_depth=0):
     if _current_depth>max_depth:
         return None
@@ -25,6 +25,11 @@ def find_module(module_name:str,
         current_all = getattr(current_module,'__all__')
     except:
         current_all = dir(current_module)
+    if hide_double_underscored:
+        current_all = [a for a in current_all if not a.startswith('_')]
+    if hide_single_underscored:
+        current_all = [a for a in current_all if not a.startswith('__')]
+
     #print(current_all)
     ret={}
     for module in current_all:
