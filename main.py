@@ -30,11 +30,12 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
 
     current_module = import_module(module_name)
     
+    ret={}
     try:
         current_all = getattr(current_module,'__all__')
     except:
         current_all = dir(current_module)
-    
+
     current_all=_filter_underscore(current_all,hide_single_underscored,hide_double_underscored)
 
     ret={}
@@ -43,15 +44,13 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
             ret[module] = find_module(module_name+'.'+module,hide_double_underscored,max_depth,_current_depth=_current_depth+1)
         except:
             pass
+    
 
 
+    ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single_underscored,hide_double_underscored)
+    ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
 
-    if ret:
-        ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single_underscored,hide_double_underscored)
-        ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
-        return ret
-    else:
-        return current_all
+    return ret
 
 
 
