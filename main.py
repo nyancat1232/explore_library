@@ -49,7 +49,7 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
             pass
     if ret:
         ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single_underscored,hide_double_underscored)
-
+        ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
         return ret
     else:
         return current_all
