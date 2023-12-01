@@ -1,7 +1,8 @@
 import sys
 
 from importlib import import_module
-import pprint
+
+import json
 
 def find_module_information(module_name:str,
                 max_depth:int=2,
@@ -48,4 +49,5 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
 
 
 r=find_module(sys.argv[1])
-pprint.pprint(r)
+with open(f'{sys.argv[1]}.json','w') as json_file:
+    json.dump(r,json_file)
