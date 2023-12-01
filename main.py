@@ -15,7 +15,7 @@ def find_module_information(module_name:str,
     return ret
 
 def find_module(module_name:str,hide_single_underscored:bool=True,
-                hide_double_underscored:bool=True,max_depth:int=2,
+                hide_double_underscored:bool=True,max_depth:int=10,
                 _current_depth=0):
     if _current_depth>max_depth:
         return None
@@ -47,5 +47,5 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
 
 
 
-r=find_module(sys.argv[1],max_depth=3)
+r=find_module(sys.argv[1])
 pprint.pprint(r)
