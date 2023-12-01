@@ -25,11 +25,11 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
         if single:
             current_all = [a for a in current_all if not a.startswith('__')]
         return current_all
-
     if _current_depth>max_depth:
         return None
 
     current_module = import_module(module_name)
+    
     try:
         current_all = getattr(current_module,'__all__')
     except:
@@ -37,16 +37,15 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
     
     current_all=_filter_underscore(current_all,hide_single_underscored,hide_double_underscored)
 
-    #print(current_all)
     ret={}
     for module in current_all:
-
         try:
-            
             ret[module] = find_module(module_name+'.'+module,hide_double_underscored,max_depth,_current_depth=_current_depth+1)
-
         except:
             pass
+
+
+
     if ret:
         ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single_underscored,hide_double_underscored)
         ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
