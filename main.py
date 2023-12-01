@@ -1,7 +1,7 @@
 import sys
 
 from importlib import import_module
-
+from types import ModuleType
 import json
 
 def find_module_information(module_name:str,
@@ -31,6 +31,9 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
     current_module = import_module(module_name)
     
     ret={}
+
+
+    #in __all__
     try:
         current_all = getattr(current_module,'__all__')
     except:
@@ -45,8 +48,18 @@ def find_module(module_name:str,hide_single_underscored:bool=True,
         except:
             pass
     
+    #sibling modules
+    modules_in_dir=[elem for elem in dir(current_module) if type(getattr(current_module,elem)) == ModuleType]
+    modules_in_dir=_filter_underscore(modules_in_dir,hide_single_underscored,hide_double_underscored)
+    for module in modules_in_dir:
+        try:
+            ret[module] = find_module(module_name+'.'+module,hide_double_underscored,max_depth,_current_depth=_current_depth+1)
+        except:
+            pass
+    print(modules_in_dir)
 
-
+    
+    #sibling values
     ret['_c__v___dir___v__c_']=_filter_underscore(dir(current_module),hide_single_underscored,hide_double_underscored)
     ret['_c__v___dir___v__c_']=[v for v in ret['_c__v___dir___v__c_'] if v not in ret]
 
