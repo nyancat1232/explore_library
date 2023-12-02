@@ -80,4 +80,4 @@ args = parser.parse_args()
 print(args.nhd)
 r=find_module(args.module,hide_double_underscored=args.nhd,hide_single_underscored=args.nhs)
 with open(f'{args.module}.json','w') as json_file:
-    json.dump(r,json_file)
+    json.dump(r,json_file,indent=4)
