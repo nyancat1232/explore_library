@@ -1,7 +1,5 @@
 # Python library explorer
 
-<<<<<<< HEAD
-=======
 # Run
     $ python3 main.py asyncio
 
@@ -17,4 +15,3 @@
           "constants": "<class 'str'>",
           ....
 
->>>>>>> origin/main
